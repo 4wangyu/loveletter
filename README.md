@@ -1,5 +1,11 @@
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
+## Presentation
+
+[Slides](https://love-letter.netlify.com/slides)
+
+[Slides with speaker mode on](https://love-letter.netlify.com/slides?mode=speaker)
+
 ## Available Scripts
 
 In the project directory, you can run:
