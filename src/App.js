@@ -6,8 +6,11 @@ const charMap = {
   "0": "&#8204;",
   "1": "&#8205;"
 };
-
 const splitter = "&#8203;";
+
+const plitterReg = new RegExp("&#8203;|\u200B", "g");
+const joinerReg = new RegExp("&#8205;|\u200D|&zwj;", "g");
+const nonjoinerReg = new RegExp("&#8204;|\u200C|&zwnj;", "g");
 
 class App extends React.Component {
   constructor(props) {
@@ -104,6 +107,34 @@ class App extends React.Component {
     }, 2000);
   }
 
+  setLetter(event) {
+    event.persist();
+    this.setState({ letter: event.target.value });
+  }
+
+  decrypt() {
+    const { letter } = this.state;
+
+    const rawArr = letter.split(plitterReg);
+    if (rawArr.length === 1) {
+      this.setState({ decrypted: rawArr[0] });
+    } else {
+      const prefix = rawArr[0];
+      const suffix = rawArr[rawArr.length - 1];
+      const decrypted = rawArr
+        .slice(1, rawArr.length - 1)
+        .map(e => this.decryptChar(e))
+        .join("");
+      this.setState({ decrypted: prefix + decrypted + suffix });
+    }
+  }
+
+  decryptChar(s) {
+    return String.fromCharCode(
+      parseInt(s.replace(joinerReg, "1").replace(nonjoinerReg, "0"), 2)
+    );
+  }
+
   render() {
     const {
       encrypt,
@@ -197,7 +228,29 @@ class App extends React.Component {
             </Button>
           </div>
         ) : (
-          <div></div>
+          <div className="flex-col">
+            <Input.Textarea
+              value={letter}
+              onChange={e => this.setLetter(e)}
+              width={`90%`}
+              className="letter"
+              theme="huaqing"
+            />
+            <Button
+              kong="huaqing"
+              className="decrypt-button"
+              onClick={() => this.decrypt()}
+            >
+              Decrypt
+            </Button>
+
+            <Input.Textarea
+              value={decrypted}
+              className="decrypted"
+              theme="huaqing"
+              disabled
+            />
+          </div>
         )}
       </div>
     );

@@ -64,10 +64,27 @@
   padding: 8px 10px;
   transition: all 0.1s linear;
   background: #fff;
-  border: 3px solid #c45a65;
+
   height: 144px;
   font-size: 14px;
   max-width: 444px;
+}
+
+.encrypted {
+  border: 3px solid #c45a65;
+}
+
+.decrypted {
+  width: 90% !important;
+  display: flex !important;
+  justify-content: center;
+}
+
+.decrypted textarea {
+  height: 144px !important;
+  font-size: 14px;
+  max-width: 444px;
+  border: 4px solid #2376b7 !important;
 }
 
 .alert {
@@ -75,4 +92,25 @@
   margin: 10px 10px auto 88%;
   z-index: 1;
   font-size: 14px !important;
+}
+
+.letter {
+  display: flex !important;
+  justify-content: center;
+  height: auto !important;
+  margin-top: 74px;
+}
+
+.letter textarea {
+  height: 144px !important;
+  font-size: 14px;
+  max-width: 444px;
+}
+
+.decrypt-button {
+  margin: 40px !important;
+}
+
+.decrypted textarea {
+  cursor: default !important;
 }
