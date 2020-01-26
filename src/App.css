@@ -53,6 +53,26 @@
   max-width: 444px;
 }
 
-.encrypt-button {
+.encrypt-button,
+.copy-button {
   margin: 20px !important;
+}
+
+.encrypted {
+  box-sizing: border-box;
+  width: 90%;
+  padding: 8px 10px;
+  transition: all 0.1s linear;
+  background: #fff;
+  border: 3px solid #c45a65;
+  height: 144px;
+  font-size: 14px;
+  max-width: 444px;
+}
+
+.alert {
+  position: fixed !important;
+  margin: 10px 10px auto 88%;
+  z-index: 1;
+  font-size: 14px !important;
 }

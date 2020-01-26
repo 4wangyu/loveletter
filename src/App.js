@@ -1,6 +1,13 @@
 import React from "react";
 import "./App.css";
-import { Button, Radio, Input } from "zhui";
+import { Button, Radio, Input, Alert } from "zhui";
+
+const charMap = {
+  "0": "&#8204;",
+  "1": "&#8205;"
+};
+
+const splitter = "&#8203;";
 
 class App extends React.Component {
   constructor(props) {
@@ -8,11 +15,16 @@ class App extends React.Component {
 
     this.state = {
       encrypt: true,
-      prefixShow: false,
-      suffixShow: false,
+      prefixShow: true,
+      suffixShow: true,
       prefix: "",
       suffix: "",
-      secret: ""
+      secret: "",
+      encrypted: "",
+      letter: "",
+      decrypted: "",
+      loading: false,
+      copied: false
     };
   }
 
@@ -21,11 +33,11 @@ class App extends React.Component {
   }
 
   togglePrefixShow() {
-    this.setState({ prefixShow: !this.state.prefixShow });
+    this.setState({ prefixShow: !this.state.prefixShow, prefix: "" });
   }
 
   toggleSuffixShow() {
-    this.setState({ suffixShow: !this.state.suffixShow });
+    this.setState({ suffixShow: !this.state.suffixShow, suffix: "" });
   }
 
   setSecret(event) {
@@ -43,6 +55,55 @@ class App extends React.Component {
     this.setState({ suffix: event.target.value });
   }
 
+  encrypt() {
+    this.setState({ loading: true });
+    let { prefix, secret, suffix } = this.state;
+    prefix = prefix.trim().concat(" ");
+    secret = secret.trim().concat(" ");
+
+    const secretEnc = secret
+      .split("")
+      .map(ch => this.encryptChar(ch))
+      .join(splitter);
+    const encrypted = prefix + splitter + secretEnc + splitter + suffix;
+
+    this.setState({ encrypted });
+    this.refs.encrypted.innerHTML = encrypted;
+  }
+
+  encryptChar(ch) {
+    return ch
+      .charCodeAt()
+      .toString(2)
+      .padStart(16, "0")
+      .split("")
+      .map(ch => charMap[ch])
+      .join("");
+  }
+
+  copyToClipboard() {
+    // 创建元素用于复制
+    var aux = document.createElement("input");
+    // 获取复制内容
+    var content = this.refs.encrypted.innerHTML;
+    // 设置元素内容
+    aux.setAttribute("value", content);
+    // 将元素插入页面进行调用
+    document.body.appendChild(aux);
+    // 复制内容
+    aux.select();
+    // 将内容复制到剪贴板
+    document.execCommand("copy");
+    // 删除创建元素
+    document.body.removeChild(aux);
+    //提示
+    this.setState({ copied: true });
+    // alert("已复制到剪贴板");
+    setTimeout(() => {
+      this.setState({ copied: false });
+    }, 2000);
+  }
+
   render() {
     const {
       encrypt,
@@ -50,7 +111,10 @@ class App extends React.Component {
       suffixShow,
       prefix,
       suffix,
-      secret
+      secret,
+      copied,
+      letter,
+      decrypted
     } = this.state;
 
     return (
@@ -62,6 +126,12 @@ class App extends React.Component {
             theme={encrypt ? "meihong" : "huaqing"}
           />
         </div>
+        <Alert
+          className="alert"
+          visiable={copied}
+          message="C O P I E D"
+          theme="haitang"
+        ></Alert>
 
         {encrypt ? (
           <div className="flex-col">
@@ -108,8 +178,22 @@ class App extends React.Component {
               )}
             </div>
 
-            <Button kong="meihong" className="encrypt-button">
+            <Button
+              kong="meihong"
+              className="encrypt-button"
+              onClick={() => this.encrypt()}
+            >
               Encrypt
+            </Button>
+
+            <div className="encrypted" ref="encrypted" />
+
+            <Button
+              kong="meihong"
+              className="copy-button"
+              onClick={() => this.copyToClipboard()}
+            >
+              Copy
             </Button>
           </div>
         ) : (
