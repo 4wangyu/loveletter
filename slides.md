@@ -9,115 +9,164 @@ By Wang Yu {.text-intro}
 
 <slide>
 
-https://en.wikipedia.org/wiki/Unicode
+## What zero width characters are there?
 
-[Unicode Character Table](https://unicode-table.com/en/search/?q=zero+width)
-
-[ASCII Table](http://www.asciitable.com/)
-
-Unicode represents most written languages in the world while ASCII does not.
-
-ASCII has its equivalent within Unicode.
-
-https://en.wikipedia.org/wiki/Zero-width_space
-
-https://en.wikipedia.org/wiki/Zero-width_joiner
+| ZWC            | HTML entity        | Unicode |
+| -------------- | ------------------ | ------- |
+| Space          | `&#8203;`          | U+200B  |
+| Non-Joiner     | `&#8204;`/`&zwnj;` | U+200C  |
+| Joiner         | `&#8205;`/`&zwj;`  | U+200D  |
+| No-Break Space | `&#65279;`         | U+FEFF  |
 
 <slide>
 
-There are many types of zero-width characters, but today we are going to discuss about zero-width space. And also that how it is used in our day-to-day life. Sit back, get relax and read on to know more about it.
+## Unicode
 
-It is a non-printing character. Generally, used in computerized typesetting in order to differentiate two words (to indicate word boundaries). It is a Unicode character, which can be used to render white spaces. It’s also type of white space but it is of zero-width. Thus, it does not appears.
+| Encoding format | Space     | Link                                          |
+| --------------- | --------- | --------------------------------------------- |
+| ASCII           | 8 bits    | [ASCII Table](http://www.asciitable.com/)     |
+| Unicode         | 1-4 bytes | [Unicode Table](https://unicode-table.com/en) |
 
-It is used to have invisible fingerprints like if we are sharing any data like an article on web then it should be embedded with zero-width spaces in order to easily identify our content and details provided if ever copied and republished anywhere else.
+![](https://upload.wikimedia.org/wikipedia/commons/thumb/c/c4/Utf8webgrowth.svg/640px-Utf8webgrowth.svg.png?1580102755192)
+
+> As of January 2020 accounts for 94.7% of all web pages (some of which are simply ASCII, as it is a subset of UTF-8) and 96% of the top 1,000 highest ranked web pages.
+> -Wikipedia
+
+<slide>
+
+## Zero-width space (U+200B)
+
+<hr>
+
+The zero-width space can be used to enable line wrapping in long words, when using languages that don’t use spaces to separate words, or after certain characters like a slash /. Most applications treat the zero-width space like a regular space for word wrapping purposes, even though it is not visible.
+
+In the illustration below, the first string contains no spaces of any kind, but the second string contains zero-width spaces before each capital letter. When narrowing the window, the difference in word wrapping can be observed.
+
+![](https://www.ptiglobal.com/proofsite/wp-content/uploads/2018/04/image1.png)
+
+[Wiki](https://en.wikipedia.org/wiki/Zero-width_space)
+
+<slide>
+
+## Zero-width non-joiner (U+200C)
+
+<hr>
+
+The zero-width non-joiner is a non-printing character used in writing systems that make use of ligatures. When placed between two characters that would otherwise be combined into a ligature, a zero-width non-joiner tells the font engine not to combine them.
+
+In the Persian example below, the phrase “I want…” requires a zero-width non-joiner (indicated with a red line) after the first two letters to prevent the ligature from forming. If the zero-width non-joiner is missing, the ligature is formed as seen in the first line.
+
+![](https://www.ptiglobal.com/proofsite/wp-content/uploads/2018/04/image2.png)
+
+[Wiki](https://en.wikipedia.org/wiki/Zero-width_non-joiner)
+
+<slide>
+
+## Zero-width joiner (U+200D)
+
+<hr>
+
+The zero-width joiner is essentially the opposite of the zero-width non-joiner. When placed between two characters that would otherwise not be connected, a zero-width joiner causes them to be printed in their connected forms (if they have one).
+
+In the Devanagari example below, adding a zero-width joiner in the second line changes the appearance of the character.
+
+![](https://www.ptiglobal.com/proofsite/wp-content/uploads/2018/04/image3.png)
+
+[Wiki](https://en.wikipedia.org/wiki/Zero-width_joiner)
+
+<slide>
+
+## Zero-width no-break space (U+FEFF) | Word joiner (U+2060)
+
+<hr>
+
+To keep lines from breaking between two characters, the word joiner (above) should be used instead.
+
+![](https://www.ptiglobal.com/proofsite/wp-content/uploads/2018/04/image4.png)
+
+[Wiki](https://en.wikipedia.org/wiki/Word_joiner)
+
+<slide>
+
+## Try it out
+
+<hr>
+
+```html
+<p>
+  front&#8205;&#8205;&#8203;&#8205;&#8205;&#8205;&#8203;&#8204;&#8205;&#8204;&#8203;&#8204;&#8204;&#8204;&#8203;&#8204;back
+</p>
+```
+
+[Codepen](https://codepen.io/pen/)
+
+<slide>
+
+## Applications
+
+<hr>
+
+- Wrapping up text in browsers
+- Blacklisting in URLs
+- Naming folder/file with same name
+- Bypass censorship
+- Embed surprises in code
+- Fingerprinting
+- Encrypt information
+
+<slide>
+
+### Wrapping up text in browsers
 
 It is also used in many browsers, if the browser needs to wrap up the text when end of window appears. The consecutive words in sentence are separated by zero-width spaces. If the words are not separated then the word will be in same line which is difficult to read.
 
-Blacklisting in URLs:
+### Blacklisting in URLs
 
-ICANN rules are formed such that it prohibits the use of zero-width characters in domain names. Because, if they are used in or with the domain names, they create homograph attack. Homograph attack is where malicious URLs are differentiated as a legitimate one and the one which is visual.
+ICANN prohibits the use of zero-width characters in domain names. Because, if they are used in or with the domain names, they create homograph attack. Homograph attack is where malicious URLs are disguised as a legitimate one.
 
-The Unicode of zero-width space is U+200B and if we want to specify zero-width character in HTML code then it is specified as (&#8203;). In TeX, it is written as (\hskip0pt), in LaTeX it is written as (\hspace{0pt}) and in groff it is (\:).
+[Emoji Domain](https://www.google.com/search?q=emoji+domain)
+
+[Snake game in URL](http://demian.ferrei.ro/snake)
+
+### Naming folder/file
 
 It can also be used in our daily life. Like if we want to make two files or folders having same name then it’s not possible as they both will merge together. But, by using zero-width space it is possible.
 
-When naming the file or folder same as the one which already exists then after or before the same name, press ALT+8203. As the zero-width space is added to the original name, the system differentiate both of that although the names look same.
+<slide>
 
-Also, it can be used if we want to break line as per our conveyance. For example: If I am having a very long name or word which I want to be fitted in small column like the cell of excel sheet when displayed initially (without enlarging it). Then we are able to decide that from where the word should be broken. This is called line break.
+## Bypass censorship
 
-The following are the notations to specify different kinds of zero-width characters:
+[Link to freedom of speech](https://we.laogongshuo.com/)
 
-- `&#8203;` (Space)
-- `&#8204;` (Non-Joiner)
-- `&#8205;` (Joiner)
-- `&#65279;` (No-Break Space)
+`view-source:https://we.laogongshuo.com/`
 
 <slide>
 
-将这段零宽字符粘贴进一个 HTML 文件当中
+## Embed surprises in code
 
-```html
-<p>前</p>
-<div>
-  &#8205;&#8205;&#8203;&#8205;&#8205;&#8205;&#8203;&#8204;&#8205;&#8204;&#8203;&#8204;&#8204;&#8204;&#8203;&#8204;
-</div>
-<p>后</p>
-```
-
-在浏览器中打开这个 HTML 文件，你只能看到 "前后" 两个字
+# Don't use it in your code!
 
 <slide>
 
-首先从待解密字符串中匹配零宽字符， 零宽字符在 Unicode 中的编码为 \u200B \u200C \u200D|
-在 HTML 中有两种显示
+## Fingerprinting
 
-HTML
-
-- `&#8203;`
-- `&#8204;` --> &zwnj
-- `&#8205;` --> &zwj
-
-pc 版 QQ 不支持零宽字符，会显示空格，但手机版不会
-
-<slide>
-
-# Unicode
-
-A worldwide standard where each character uses a unique number between U+0000 and U+10FFFF, Unicode may be 8-bit, 16-bit, or 32-bit. Numbers, mathematical notation, popular symbols and characters from all languages are assigned a code point, for example, U+0041 is an English letter "A." Below is an example of how "Computer Hope" would be written in English Unicode.
-
-```
-U+0043 U+006F U+006D U+0070 U+0075 U+0074 U+0065 U+0072 U+00A0 U+0048 U+006F U+0070 U+0065
-```
-
-A common type of Unicode is UTF-8, which utilizes 8-bit character encoding. It is often used in Linux environments, to encode foreign characters so they display properly when output to a text file.
-
-<slide>
-
-The charCodeAt() method returns an integer between 0 and 65535 representing the UTF-16 code unit at the given index.
-
-<slide>
-
-# Bypass censorship
-
-[Another application](view-source:https://we.laogongshuo.com/)
-
-<slide>
-
-# Fingerprinting
-
+- To protect copyrighted content.
 - To track user activity.
-- To protect copyrighted info.
 
 [Big brother is watching you](https://www.umpox.com/zero-width-detection/)
 
 [Let's check the code](https://github.com/umpox/zero-width-detection/blob/master/src/utils/usernameToZeroWidth.js)
 
-# Anti-Fringerprinting
+## Anti-Fringerprinting
 
 [Chrome extension](https://chrome.google.com/webstore/detail/replace-zero-width-charac/lgaiigbekmcejmhenhhleeaicbcjjddi)
 
 <slide>
 
-# Don't use it in your code
+## Encrypt information
 
-git can detect the changes.
+[Let's compose a love letter](https://love-letter.netlify.com)
+
+<slide class="aligncenter">
+
+# FINE
